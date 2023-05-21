@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'src/presentation/pages/pages.dart' show MainPage;
+import 'package:menu_task/src/presentation/pages/pages.dart' show MainPage;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

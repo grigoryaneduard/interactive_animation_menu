@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:menu_task/src/core/models/models.dart' show Menu;
 
+import 'full_menu_page.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -38,10 +40,21 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        elevation: 2.0,
-        child: const Icon(Icons.add),
+      floatingActionButton: GestureDetector(
+        onVerticalDragUpdate: (details) {
+          if (details.delta.dy < 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MenuPage(menuItems: menuItems)),
+            );
+          }
+        },
+        child: FloatingActionButton(
+          onPressed: () {},
+          elevation: 2.0,
+          child: const Icon(Icons.add, size: 30.0),
+        ),
       ),
     );
   }

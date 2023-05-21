@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:menu_task/src/presentation/pages/pages.dart' show MainPage;
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {

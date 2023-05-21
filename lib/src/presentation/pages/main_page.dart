@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => MenuPage(menuItems: menuItems)),
+                  builder: (context) => FullMenuPage(menuItems: menuItems)),
             );
           }
         },

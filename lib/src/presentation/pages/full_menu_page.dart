@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:menu_task/src/core/models/models.dart' show Menu;
 
-class MenuPage extends StatelessWidget {
+class FullMenuPage extends StatelessWidget {
   final List<Menu> menuItems;
 
-  const MenuPage({super.key, required this.menuItems});
+  const FullMenuPage({super.key, required this.menuItems});
 
   @override
   Widget build(BuildContext context) {

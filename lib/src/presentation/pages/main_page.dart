@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:menu_task/src/core/models/models.dart' show Menu;
 
-import 'full_menu_page.dart';
-
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -43,11 +41,7 @@ class _MainPageState extends State<MainPage> {
       floatingActionButton: GestureDetector(
         onVerticalDragUpdate: (details) {
           if (details.delta.dy < 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => FullMenuPage(menuItems: menuItems)),
-            );
+            //
           }
         },
         child: FloatingActionButton(

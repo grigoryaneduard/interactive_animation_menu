@@ -16,6 +16,8 @@ class _MainPageState extends State<MainPage> {
     Menu(icon: Icons.search, title: "Search"),
     Menu(icon: Icons.message, title: "Messages"),
     Menu(icon: Icons.person, title: "Profile"),
+    Menu(icon: Icons.mail, title: "Mail"),
+    Menu(icon: Icons.voice_chat, title: "Chat"),
   ];
 
   @override
@@ -25,29 +27,16 @@ class _MainPageState extends State<MainPage> {
         child: Text("Selected: ${menuItems[_selectedIndex].title}"),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.purple,
-        shape: const CircularNotchedRectangle(),
+        color: Colors.transparent,
+        elevation: 0.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: menuItems.length <= 4
               ? menuItems.map((item) => _buildBottomBarItem(item)).toList()
               : List<Widget>.from(menuItems
-                      .take(4)
+                      .take(3)
                       .map((item) => _buildBottomBarItem(item))) +
-                  [_buildMoreButton(menuItems.skip(4).toList())],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: GestureDetector(
-        onVerticalDragUpdate: (details) {
-          if (details.delta.dy < 0) {
-            //
-          }
-        },
-        child: FloatingActionButton(
-          onPressed: () {},
-          elevation: 2.0,
-          child: const Icon(Icons.add, size: 30.0),
+                  [_buildMoreButton(menuItems.skip(3).toList())],
         ),
       ),
     );
@@ -55,7 +44,7 @@ class _MainPageState extends State<MainPage> {
 
   Widget _buildBottomBarItem(Menu item) {
     return IconButton(
-      icon: Icon(item.icon, color: Colors.white),
+      icon: Icon(item.icon, color: Colors.purple),
       onPressed: () {
         setState(() {
           _selectedIndex = menuItems.indexOf(item);
@@ -66,7 +55,7 @@ class _MainPageState extends State<MainPage> {
 
   Widget _buildMoreButton(List<Menu> remainingItems) {
     return PopupMenuButton<Menu>(
-      icon: const Icon(Icons.more_horiz, color: Colors.white),
+      icon: const Icon(Icons.more_horiz, color: Colors.purple),
       onSelected: (Menu result) {
         setState(() {
           _selectedIndex = menuItems.indexOf(result);
@@ -78,6 +67,22 @@ class _MainPageState extends State<MainPage> {
                 child: Text(item.title),
               ))
           .toList(),
+    );
+  }
+
+  Widget _buildFloatingActionButton() {
+    return GestureDetector(
+      onVerticalDragUpdate: (details) {
+        if (details.delta.dy < 0) {
+          //
+        }
+      },
+      child: FloatingActionButton(
+        onPressed: () {},
+        elevation: 2.0,
+        backgroundColor: Colors.lightBlue,
+        child: const Icon(Icons.add, size: 30.0),
+      ),
     );
   }
 }

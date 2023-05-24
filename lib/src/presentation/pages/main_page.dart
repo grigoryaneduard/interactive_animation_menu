@@ -5,13 +5,14 @@ class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
+  static const maxDisplayItems = 4;
 
-  List<Menu> menuItems = [
+  final List<Menu> _menuItems = [
     Menu(icon: Icons.home, title: "Home"),
     Menu(icon: Icons.search, title: "Search"),
     Menu(icon: Icons.message, title: "Messages"),
@@ -24,43 +25,51 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Selected: ${menuItems[_selectedIndex].title}"),
+        child: Text("Selected: ${_menuItems[_selectedIndex].title}"),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.transparent,
         elevation: 0.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: menuItems.length <= 4
-              ? menuItems.map((item) => _buildBottomBarItem(item)).toList()
-              : List<Widget>.from(menuItems
-                      .take(3)
-                      .map((item) => _buildBottomBarItem(item))) +
-                  [_buildMoreButton(menuItems.skip(3).toList())],
+          children: _buildBottomBarItems(),
         ),
       ),
     );
   }
 
+  List<Widget> _buildBottomBarItems() {
+    var displayItems = _menuItems.length < maxDisplayItems
+        ? _menuItems
+        : _menuItems.take(maxDisplayItems);
+
+    var items = [
+      for (var item in displayItems) _buildBottomBarItem(item),
+    ];
+
+    if (_menuItems.length > maxDisplayItems) {
+      items.last =
+          _buildMoreButton(_menuItems.skip(maxDisplayItems - 1).toList());
+    }
+
+    var fabPosition = items.length >= 4 ? 2 : items.length;
+
+    items.insert(fabPosition, _buildFloatingActionButton());
+
+    return items;
+  }
+
   Widget _buildBottomBarItem(Menu item) {
     return IconButton(
       icon: Icon(item.icon, color: Colors.purple),
-      onPressed: () {
-        setState(() {
-          _selectedIndex = menuItems.indexOf(item);
-        });
-      },
+      onPressed: () => _updateSelectedIndex(item),
     );
   }
 
   Widget _buildMoreButton(List<Menu> remainingItems) {
     return PopupMenuButton<Menu>(
       icon: const Icon(Icons.more_horiz, color: Colors.purple),
-      onSelected: (Menu result) {
-        setState(() {
-          _selectedIndex = menuItems.indexOf(result);
-        });
-      },
+      onSelected: _updateSelectedIndex,
       itemBuilder: (BuildContext context) => remainingItems
           .map((Menu item) => PopupMenuItem(
                 value: item,
@@ -74,7 +83,7 @@ class _MainPageState extends State<MainPage> {
     return GestureDetector(
       onVerticalDragUpdate: (details) {
         if (details.delta.dy < 0) {
-          //
+          // Code to execute when dragging up
         }
       },
       child: FloatingActionButton(
@@ -84,5 +93,11 @@ class _MainPageState extends State<MainPage> {
         child: const Icon(Icons.add, size: 30.0),
       ),
     );
+  }
+
+  void _updateSelectedIndex(Menu item) {
+    setState(() {
+      _selectedIndex = _menuItems.indexOf(item);
+    });
   }
 }

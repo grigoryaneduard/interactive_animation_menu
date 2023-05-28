@@ -52,19 +52,15 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
         .animate(CurvedAnimation(
             parent: _movingController, curve: Curves.easeInOut));
 
-    _movingController.addListener(() {
-      if (_movingController.isDismissed) {
-        setState(() {});
-      }
+    _movingController.addListener(_changeState);
+  }
 
-      if (_movingController.isCompleted) {
-        setState(() {});
-      }
-
-      if (_movingController.isAnimating) {
-        setState(() {});
-      }
-    });
+  void _changeState() {
+    if (_movingController.isDismissed ||
+        _movingController.isCompleted ||
+        _movingController.isAnimating) {
+      setState(() {});
+    }
   }
 
   void _onReverse() {
@@ -86,7 +82,6 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   Widget get _mainView => Scaffold(
-        // backgroundColor: Colors.blue.withOpacity(0.1),
         body: const SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -188,6 +183,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   void dispose() {
     _rotateController.dispose();
     _movingController.dispose();
+    _movingController.removeListener(_changeState);
     super.dispose();
   }
 }

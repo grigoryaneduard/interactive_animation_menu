@@ -11,7 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> with TickerProviderStateMixin {
-  late AnimationController _controller;
+  late AnimationController _movingController;
   late AnimationController _rotateController;
   late Animation<Offset> _offsetAnimation;
   late Animation<double> _rotateAnimation;
@@ -43,17 +43,19 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   void _initTransformAnimation() {
-    _controller = AnimationController(duration: animationDuration, vsync: this);
+    _movingController =
+        AnimationController(duration: animationDuration, vsync: this);
 
     _offsetAnimation = Tween<Offset>(
             begin: Offset.zero,
             end: Offset(0.0, -(fabFactor[fabSize]?.toDouble() ?? 0)))
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+        .animate(CurvedAnimation(
+            parent: _movingController, curve: Curves.easeInOut));
   }
 
   void _onReverse() {
-    if (_controller.status == AnimationStatus.completed) {
-      _controller.reverse();
+    if (_movingController.status == AnimationStatus.completed) {
+      _movingController.reverse();
     }
     if (_rotateController.status == AnimationStatus.completed) {
       _rotateController.reverse();
@@ -64,35 +66,45 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
     if (_rotateController.status == AnimationStatus.dismissed) {
       _rotateController.forward();
     }
-    if (_controller.status == AnimationStatus.dismissed) {
-      _controller.forward();
+    if (_movingController.status == AnimationStatus.dismissed) {
+      _movingController.forward();
     }
   }
 
+  Widget get _mainView => Scaffold(
+        body: const SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                  child: Text("Events",
+                      style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.purple,
+                          fontWeight: FontWeight.bold)))
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.transparent,
+          elevation: 0.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: _buildBottomBarItems(),
+          ),
+        ),
+      );
+
+  Widget get _popup => Scaffold(
+      body: SafeArea(child: PopupMenu(onPressed: _onReverse, size: fabSize)));
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-                child: Text("Events",
-                    style: TextStyle(
-                        fontSize: 40,
-                        color: Colors.purple,
-                        fontWeight: FontWeight.bold)))
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.transparent,
-        elevation: 0.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: _buildBottomBarItems(),
-        ),
-      ),
+    return Stack(
+      children: [
+        if (_movingController.status == AnimationStatus.dismissed) _mainView,
+        if (_movingController.status == AnimationStatus.completed) _popup,
+      ],
     );
   }
 
@@ -155,7 +167,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     _rotateController.dispose();
-    _controller.dispose();
+    _movingController.dispose();
     super.dispose();
   }
 }

@@ -1,13 +1,13 @@
 const animationDuration = Duration(milliseconds: 800);
 
 const fabFactor = {
-  100: 4.6,
-  90: 5.05,
-  80: 5.6,
-  70: 6.35,
-  60: 7.3,
-  50: 8.7,
-  40: 10.7,
+  100: 3.8,
+  90: 4.22,
+  80: 4.75,
+  70: 5.42,
+  60: 6.33,
+  50: 7.6,
+  40: 9.4,
 };
 
-const double fabSize = 80;
+const double fabSize = 100;

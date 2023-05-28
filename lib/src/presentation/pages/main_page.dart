@@ -51,6 +51,20 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
             end: Offset(0.0, -(fabFactor[fabSize]?.toDouble() ?? 0)))
         .animate(CurvedAnimation(
             parent: _movingController, curve: Curves.easeInOut));
+
+    _movingController.addListener(() {
+      if (_movingController.isDismissed) {
+        setState(() {});
+      }
+
+      if (_movingController.isCompleted) {
+        setState(() {});
+      }
+
+      if (_movingController.isAnimating) {
+        setState(() {});
+      }
+    });
   }
 
   void _onReverse() {
@@ -72,6 +86,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   Widget get _mainView => Scaffold(
+        // backgroundColor: Colors.blue.withOpacity(0.1),
         body: const SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -96,14 +111,19 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
       );
 
   Widget get _popup => Scaffold(
-      body: SafeArea(child: PopupMenu(onPressed: _onReverse, size: fabSize)));
+      backgroundColor: Colors.blue.withOpacity(_movingController.value),
+      body: SafeArea(
+          child: _movingController.isCompleted
+              ? PopupMenu(onPressed: _onReverse, size: fabSize)
+              : const SizedBox()));
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        if (_movingController.status == AnimationStatus.dismissed) _mainView,
-        if (_movingController.status == AnimationStatus.completed) _popup,
+        _mainView,
+        if (_movingController.isAnimating || _movingController.isCompleted)
+          _popup,
       ],
     );
   }

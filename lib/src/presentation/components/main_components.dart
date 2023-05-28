@@ -39,6 +39,9 @@ class PopupMenu extends StatelessWidget {
   const PopupMenu({Key? key, required this.size, required this.onPressed})
       : super(key: key);
 
+  Text _textBuilder(String text) =>
+      Text(text, style: const TextStyle(color: Colors.white, fontSize: 16));
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,25 +53,22 @@ class PopupMenu extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                InkWell(
-                    onTap: onPressed,
-                    enableFeedback: false,
-                    child:
-                        Container(color: Colors.red, height: size, width: size))
+                CircleButton(
+                    onPressed: onPressed, icon: Icons.close, size: size)
               ],
             ),
           ),
         ),
-        const Expanded(
+        Expanded(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(0, 20, 0, 140),
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 140),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Title 1"),
-                Text("Title 2"),
-                Text("Title 3"),
-                Text("Title 4"),
+                _textBuilder("Remainder"),
+                _textBuilder("Camera"),
+                _textBuilder("Attachment"),
+                _textBuilder("Text Note"),
               ],
             ),
           ),
@@ -80,19 +80,26 @@ class PopupMenu extends StatelessWidget {
 
 class CircleButton extends StatelessWidget {
   final IconData icon;
+  final double size;
   final VoidCallback onPressed;
 
-  const CircleButton({Key? key, required this.icon, required this.onPressed})
+  const CircleButton(
+      {Key? key,
+      required this.icon,
+      required this.size,
+      required this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RawMaterialButton(
-        onPressed: onPressed,
-        elevation: 2.0,
-        fillColor: Colors.blue,
-        padding: const EdgeInsets.all(18.0),
-        shape: const CircleBorder(),
-        child: Icon(icon, color: Colors.white, size: 18));
+    return SizedBox(
+        width: size,
+        height: size,
+        child: RawMaterialButton(
+            onPressed: onPressed,
+            elevation: 0,
+            fillColor: Colors.white,
+            shape: const CircleBorder(),
+            child: Icon(icon, color: Colors.blue)));
   }
 }

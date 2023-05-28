@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Menu {
+class MenuModel {
+  final int id;
   final IconData icon;
   final String title;
 
-  Menu({required this.icon, required this.title});
+  MenuModel({required this.id, required this.icon, required this.title});
 }

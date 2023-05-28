@@ -47,7 +47,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     _offsetAnimation = Tween<Offset>(
             begin: Offset.zero,
-            end: Offset(0.0, fabFactor[fabSize]?.toDouble() ?? 0))
+            end: Offset(0.0, -(fabFactor[fabSize]?.toDouble() ?? 0)))
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
@@ -72,7 +72,19 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PopupMenu(onPressed: _onReverse, size: fabSize),
+      body: const SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+                child: Text("Events",
+                    style: TextStyle(
+                        fontSize: 40,
+                        color: Colors.purple,
+                        fontWeight: FontWeight.bold)))
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.transparent,
         elevation: 0.0,

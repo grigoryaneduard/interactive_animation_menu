@@ -10,4 +10,4 @@ const fabFactor = {
   40: 9.4,
 };
 
-const double fabSize = 100;
+const double fabSize = 70;

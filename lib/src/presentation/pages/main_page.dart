@@ -54,19 +54,19 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   void _onReverse() {
-    if (_movingController.status == AnimationStatus.completed) {
+    if (_movingController.isCompleted) {
       _movingController.reverse();
     }
-    if (_rotateController.status == AnimationStatus.completed) {
+    if (_rotateController.isCompleted) {
       _rotateController.reverse();
     }
   }
 
   void _onForward() {
-    if (_rotateController.status == AnimationStatus.dismissed) {
+    if (_rotateController.isDismissed) {
       _rotateController.forward();
     }
-    if (_movingController.status == AnimationStatus.dismissed) {
+    if (_movingController.isDismissed) {
       _movingController.forward();
     }
   }

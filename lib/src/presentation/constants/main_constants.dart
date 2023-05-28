@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 const animationDuration = Duration(milliseconds: 800);
 
 const fabFactor = {
@@ -11,3 +13,5 @@ const fabFactor = {
 };
 
 const double fabSize = 70;
+
+const primaryColor = Color(0xFF0000FF);

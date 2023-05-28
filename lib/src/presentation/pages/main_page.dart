@@ -106,10 +106,11 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
       );
 
   Widget get _popup => Scaffold(
-      backgroundColor: Colors.blue.withOpacity(_movingController.value),
+      backgroundColor: primaryColor.withOpacity(_movingController.value),
       body: SafeArea(
           child: _movingController.isCompleted
-              ? PopupMenu(onPressed: _onReverse, size: fabSize)
+              ? PopupMenu(
+                  onPressed: _onReverse, size: fabSize, color: primaryColor)
               : const SizedBox()));
 
   @override
@@ -147,7 +148,8 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
             child: FAB(
                 onPressed: _onForward,
                 rotateAnimation: _rotateAnimation,
-                size: fabSize)));
+                size: fabSize,
+                color: primaryColor)));
 
     return items;
   }

@@ -4,12 +4,14 @@ class FAB extends StatelessWidget {
   final VoidCallback onPressed;
   final Animation<double> rotateAnimation;
   final double size;
+  final Color color;
 
   const FAB(
       {Key? key,
       required this.rotateAnimation,
       required this.onPressed,
-      required this.size})
+      required this.size,
+      required this.color})
       : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class FAB extends StatelessWidget {
           height: size,
           child: FloatingActionButton(
               onPressed: onPressed,
-              backgroundColor: Colors.blue,
+              backgroundColor: color,
               child: RotationTransition(
                   turns: rotateAnimation, child: const Icon(Icons.add))),
         ));
@@ -35,8 +37,13 @@ class FAB extends StatelessWidget {
 class PopupMenu extends StatelessWidget {
   final VoidCallback onPressed;
   final double size;
+  final Color color;
 
-  const PopupMenu({Key? key, required this.size, required this.onPressed})
+  const PopupMenu(
+      {Key? key,
+      required this.size,
+      required this.color,
+      required this.onPressed})
       : super(key: key);
 
   Text _textBuilder(String text) =>
@@ -54,7 +61,10 @@ class PopupMenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CircleButton(
-                    onPressed: onPressed, icon: Icons.close, size: size)
+                    onPressed: onPressed,
+                    icon: Icons.close,
+                    color: color,
+                    size: size)
               ],
             ),
           ),
@@ -81,12 +91,14 @@ class PopupMenu extends StatelessWidget {
 class CircleButton extends StatelessWidget {
   final IconData icon;
   final double size;
+  final Color color;
   final VoidCallback onPressed;
 
   const CircleButton(
       {Key? key,
       required this.icon,
       required this.size,
+      required this.color,
       required this.onPressed})
       : super(key: key);
 
@@ -100,6 +112,6 @@ class CircleButton extends StatelessWidget {
             elevation: 0,
             fillColor: Colors.white,
             shape: const CircleBorder(),
-            child: Icon(icon, color: Colors.blue)));
+            child: Icon(icon, color: color)));
   }
 }
